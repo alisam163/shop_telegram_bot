@@ -1,5 +1,5 @@
 from handlers.handler import Handler
-
+from settings.config import BASE_DIR
 class HandlerCommand(Handler):
 
     def __init__(self, bot):

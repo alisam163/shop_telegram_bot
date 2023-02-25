@@ -1,11 +1,7 @@
 from sqlalchemy import Column, String, Integer, Boolean, Float, ForeignKey
-
 from sqlalchemy.orm import relationship, backref
-
-from sqlalchemy.ext.declarative import declarative_base
 from models.category import Category
-
-Base = declarative_base()
+from data_base.dbcore import Base
 
 class Products(Base):
     """ Товары """
@@ -16,13 +12,14 @@ class Products(Base):
     name = Column(String, index=True)
     title = Column(String)
     price = Column(Float)
-    quality = Column(Integer)
+    quantity = Column(Integer)
     is_active = Column(Boolean)
     category_id = Column(Integer, ForeignKey('category.id'))
     category = relationship(
         Category,
-        backref=backref('products', uselist=True, cascade='delete, all')
-    )
+        backref=backref('products',
+                        uselist=True,
+                        cascade='delete,all'))
 
     def __str__(self):
         return f"{self.name} {self.title} { self.price}"

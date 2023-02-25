@@ -2,6 +2,8 @@ from os import path
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from data_base.dbcore import Base
+
 from settings import config
 from models.product import Products
 
@@ -22,6 +24,9 @@ class DBManager(metaclass=Singleton):
         self.engine = create_engine(config.DATABASE)
         session = sessionmaker(bind=self.engine)
         self._session = session()
+        if not path.isfile(config.DATABASE):
+            Base.metadata.create_all(self.engine)
+
 
 
     def select_all_product_category(self, category):
